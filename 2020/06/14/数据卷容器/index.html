@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="闲扯," />
+  <meta name="keywords" content="Docker," />
 
 
 
@@ -94,17 +94,19 @@
 
 
 
-<meta name="description" content="​    不知道这是第几次励志要写笔记，企图记录学习成果。 ​    工作了三年半了，代码写了不少却是一点儿也没沉淀下来，碰到问题仍旧是一个字：“查”，真正的面向搜索引擎编程。现在想想之前每一次下定决心想要将知识以各种方式落实下来的时刻应该都是对自己活着环境不满意的时刻，或是想要跳出所在的圈子，但最终都没能坚持下来，草草收场。不可否认的是，能力的确有所提升，但碍于基于“经验”得来的知识不够扎实的原">
+<meta name="description" content="数据卷容器实现两个或多个容器间的数据同步  1234567891011121314151617181920212223242526# 启动两个容器，通过创建的centos镜像启动➜  hexo docker run -it --name centos01 develcarl&#x2F;centos:1.0 &#x2F;bin&#x2F;bash[root@cdc1360fff4a &#x2F;]# lsbin  dev  etc  ho">
 <meta property="og:type" content="article">
-<meta property="og:title" content="新的开始">
-<meta property="og:url" content="http://develcarl.github.io/2020/05/24/%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B/index.html">
+<meta property="og:title" content="数据卷容器">
+<meta property="og:url" content="http://develcarl.github.io/2020/06/14/%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AE%B9%E5%99%A8/index.html">
 <meta property="og:site_name" content="记">
-<meta property="og:description" content="​    不知道这是第几次励志要写笔记，企图记录学习成果。 ​    工作了三年半了，代码写了不少却是一点儿也没沉淀下来，碰到问题仍旧是一个字：“查”，真正的面向搜索引擎编程。现在想想之前每一次下定决心想要将知识以各种方式落实下来的时刻应该都是对自己活着环境不满意的时刻，或是想要跳出所在的圈子，但最终都没能坚持下来，草草收场。不可否认的是，能力的确有所提升，但碍于基于“经验”得来的知识不够扎实的原">
-<meta property="article:published_time" content="2020-05-24T13:57:37.000Z">
-<meta property="article:modified_time" content="2020-05-24T14:26:32.325Z">
+<meta property="og:description" content="数据卷容器实现两个或多个容器间的数据同步  1234567891011121314151617181920212223242526# 启动两个容器，通过创建的centos镜像启动➜  hexo docker run -it --name centos01 develcarl&#x2F;centos:1.0 &#x2F;bin&#x2F;bash[root@cdc1360fff4a &#x2F;]# lsbin  dev  etc  ho">
+<meta property="og:image" content="http://typora-pic-plat.oss-cn-beijing.aliyuncs.com/typora/2020614/3e8cafa3-889b-44db-b252-a27b37af5b0c">
+<meta property="article:published_time" content="2020-06-14T11:25:24.000Z">
+<meta property="article:modified_time" content="2020-06-14T11:50:11.879Z">
 <meta property="article:author" content="Carl Yi">
-<meta property="article:tag" content="闲扯">
+<meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://typora-pic-plat.oss-cn-beijing.aliyuncs.com/typora/2020614/3e8cafa3-889b-44db-b252-a27b37af5b0c">
 
 
 
@@ -133,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://develcarl.github.io/2020/05/24/新的开始/"/>
+  <link rel="canonical" href="http://develcarl.github.io/2020/06/14/数据卷容器/"/>
 
 
 
 
 
-  <title>新的开始 | 记</title>
+  <title>数据卷容器 | 记</title>
   
 
 
@@ -282,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://develcarl.github.io/2020/05/24/%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B/">
+    <link itemprop="mainEntityOfPage" href="http://develcarl.github.io/2020/06/14/%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AE%B9%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Carl Yi">
@@ -299,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">新的开始</h1>
+          <h1 class="post-title" itemprop="name headline">数据卷容器</h1>
         
 
         <div class="post-meta">
@@ -311,8 +313,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-24T21:57:37+08:00">
-                2020-05-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-14T19:25:24+08:00">
+                2020-06-14
               </time>
             
 
@@ -334,8 +336,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/daily/" itemprop="url" rel="index">
-                    <span itemprop="name">daily</span>
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
                   </a>
                 </span>
 
@@ -371,10 +373,14 @@
       
 
       
-        <p>​    不知道这是第几次励志要写笔记，企图记录学习成果。</p>
-<p>​    工作了三年半了，代码写了不少却是一点儿也没沉淀下来，碰到问题仍旧是一个字：“查”，真正的面向搜索引擎编程。现在想想之前每一次下定决心想要将知识以各种方式落实下来的时刻应该都是对自己活着环境不满意的时刻，或是想要跳出所在的圈子，但最终都没能坚持下来，草草收场。不可否认的是，能力的确有所提升，但碍于基于“经验”得来的知识不够扎实的原因，导致了现在半瓶水晃荡的结果，这也是从小养成的习惯吧，觉得差不多就行。</p>
-<p>​    家庭角色的转变让自己不得不思考未来的路该怎么走，翻来覆去得到的结果还是从现在开始做好：努力学习，懂得积累。听着好像父母曾经的鞭策，现在开始可能有些晚，但终归是要还是要做的，做起来吃力就当是还债了。</p>
-<p>​    就当是新的开始吧。道阻且长，行则将至。</p>
+        <h2 id="数据卷容器"><a href="#数据卷容器" class="headerlink" title="数据卷容器"></a>数据卷容器</h2><p>实现两个或多个容器间的数据同步</p>
+<p><img src="http://typora-pic-plat.oss-cn-beijing.aliyuncs.com/typora/2020614/3e8cafa3-889b-44db-b252-a27b37af5b0c" alt="image-20200614192755432"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动两个容器，通过创建的centos镜像启动</span></span><br><span class="line"></span><br><span class="line">➜  hexo docker run -it --name centos01 develcarl/centos:1.0 /bin/bash</span><br><span class="line">[root@cdc1360fff4a /]# ls</span><br><span class="line">bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var  volume01	volume02</span><br><span class="line">[root@cdc1360fff4a /]#</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 可以看到数据卷volume01和02都已经创建了</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 继续创建centos02容器 使用--volumes-from 来挂载制定容器的数据卷</span></span><br><span class="line">➜  ~ docker run -it --name centos02 --volumes-from centos01 develcarl/centos:1.0 /bin/bash</span><br><span class="line">[root@b30480236cc8 /]#</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 那么此时在centos01目录中创建一个文件来测试文件是否可以同步</span></span><br><span class="line">➜  ~ docker ps</span><br><span class="line">CONTAINER ID        IMAGE                  COMMAND             CREATED              STATUS              PORTS               NAMES</span><br><span class="line">d7cf6f030636        develcarl/centos:1.0   "/bin/bash"         About a minute ago   Up About a minute                       centos02</span><br><span class="line">47fd8bcaa7c9        develcarl/centos:1.0   "/bin/bash"         5 minutes ago        Up 5 minutes                            centos01</span><br><span class="line">➜  ~ docker exec -it 47 /bin/bash</span><br><span class="line">[root@47fd8bcaa7c9 /]# cd volume01/</span><br><span class="line">[root@47fd8bcaa7c9 volume01]# touch test.txt</span><br><span class="line">[root@47fd8bcaa7c9 volume01]# exit</span><br><span class="line">➜  ~ docker exec -it d7 /bin/bash</span><br><span class="line">[root@d7cf6f030636 /]# cd volume01/</span><br><span class="line">[root@d7cf6f030636 volume01]# ls</span><br><span class="line">test.txt</span><br><span class="line">[root@d7cf6f030636 volume01]#</span><br></pre></td></tr></table></figure>
+
+<p>至此可以看到容器间的文件已经实现数据同步了。</p>
+<p>那么有个问题，如果我将centos01容器停止且删除，那么centos02会受到影响么？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 测试</span></span><br><span class="line">➜  centos docker ps</span><br><span class="line">CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">d7cf6f030636        develcarl/centos:1.0   "/bin/bash"         9 minutes ago       Up 9 minutes                            centos02</span><br><span class="line">47fd8bcaa7c9        develcarl/centos:1.0   "/bin/bash"         12 minutes ago      Up 12 minutes                           centos01</span><br><span class="line">➜  centos docker stop 47</span><br><span class="line">47</span><br><span class="line">➜  centos docker rm 47</span><br><span class="line">47</span><br><span class="line">➜  centos docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">d7cf6f030636        develcarl/centos:1.0   "/bin/bash"         9 minutes ago       Up 9 minutes                            centos02</span><br><span class="line">➜  centos docker exec -it d7 /bin/bash</span><br><span class="line">[root@d7cf6f030636 /]# cd volume01</span><br><span class="line">[root@d7cf6f030636 volume01]# ls</span><br><span class="line">test.txt</span><br><span class="line">[root@d7cf6f030636 volume01]#</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 那么可以看出，即使删掉centos01也不会对centos02容器有影响，本质还是因为挂载的是数据卷，<span class="built_in">source</span>还是在容器外</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -392,7 +398,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E9%97%B2%E6%89%AF/" rel="tag"># 闲扯</a>
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
           
         </div>
       
@@ -405,15 +411,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2020/06/14/%E5%88%9D%E8%AF%86DockerFile/" rel="next" title="初识DockerFile">
+                <i class="fa fa-chevron-left"></i> 初识DockerFile
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/06/14/%E5%88%9D%E8%AF%86DockerFile/" rel="prev" title="初识DockerFile">
-                初识DockerFile <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -465,8 +471,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -541,6 +556,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据卷容器"><span class="nav-number">1.</span> <span class="nav-text">数据卷容器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
